@@ -4,7 +4,7 @@
 #   tools\Publish-Map.ps1 -Code FortX -Files <folder laid out like Packages>            every new map or revision
 #   tools\Publish-Map.ps1 -Reindex                                                     after editing a map.json or preview.jpg
 #
-# Write maps\<Code>\map.json (code, title, authors, description, game) before the first publish.
+# Write maps\<Code>\map.json (code, title, authors, description, game, recommendedPlayers) before the first publish.
 # -Local puts the zip under releases\ instead of a GitHub release, for testing with a local index.
 # The private key can put a map on every player's machine, so keep it out of the repo and back it up offline.
 [CmdletBinding(DefaultParameterSetName = 'Publish')]
@@ -118,7 +118,7 @@ if ($Reindex) {
 $mapDir = Join-Path $MapsDir $Code
 $mapJsonPath = Join-Path $mapDir 'map.json'
 if (-not (Test-Path $mapJsonPath)) {
-    throw "Write $mapJsonPath first, with code, title, authors, description and game."
+    throw "Write $mapJsonPath first, with code, title, authors, description, game and recommendedPlayers."
 }
 if (-not (Test-Path $KeyPath)) {
     throw "No private key at $KeyPath."
@@ -225,6 +225,7 @@ try {
         authors     = @($map.authors | ForEach-Object { [string]$_ })
         description = [string]$map.description
         game        = [string]$map.game
+        recommendedPlayers = $map.recommendedPlayers
         revision    = $revision
         updated     = (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd')
         archive     = [ordered]@{ url = $url; size = (Get-Item -LiteralPath $zipPath).Length; sha256 = Get-Sha256 $zipPath }

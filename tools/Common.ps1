@@ -19,6 +19,8 @@ $CodePattern = '^[A-Za-z0-9_-]+$'
 $MaxNameLength = 64
 $MaxPreviewSize = 256KB
 $MaxPreviewDimension = 512
+# Both teams together: solo training, then 1v1 to 4v4.
+$RecommendedPlayerCounts = @(1, 2, 4, 6, 8)
 $Games = @('enhanced', 'any')
 # The folders under Packages a map's files go in. The engine finds a searched package by name alone. The editor's copy
 # of the map (MapsEd) and its sound bank (.uas) are found by the map's name, so they are named after it.
@@ -180,6 +182,7 @@ function ConvertTo-IndexEntry($Map, [bool]$Official, $Preview) {
         playlists   = @($Map.playlists | Where-Object { $null -ne $_ } | ForEach-Object { [string]$_ })
         variant     = [string]$Map.variant
         preview     = [ordered]@{ url = [string]$Preview.url; size = [long]$Preview.size; sha256 = [string]$Preview.sha256 }
+        recommendedPlayers = [int]$Map.recommendedPlayers
     }
 }
 
@@ -269,6 +272,10 @@ function Test-MapEntry($Map, [string]$FolderName, $Prohibited) {
     }
     if ($Games -notcontains [string]$Map.game) {
         $problems.Add("game must be one of: $($Games -join ', ')")
+    }
+    $players = $Map.recommendedPlayers
+    if (-not ($players -is [int] -or $players -is [long]) -or $RecommendedPlayerCounts -notcontains $players) {
+        $problems.Add('recommendedPlayers must be 1 (solo), 2 (1v1), 4 (2v2), 6 (3v3) or 8 (4v4)')
     }
     if (Test-Property $Map 'official') {
         $problems.Add('official is not a map.json field: the repo owners list official maps in official.txt')

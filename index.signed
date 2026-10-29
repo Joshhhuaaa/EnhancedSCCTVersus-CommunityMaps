@@ -1,7 +1,7 @@
-9ea20b326ada27ae972d186e31d711fdaafae16af21a2cd546be81d701c913e092b72aaae2e2917b3b44bb705a9bd69eccde42d4782abbe451c026ac3561f652
+fa7fb9c584b68b9efd0364bea95144d99513b6a9ae2fa065f106029efefff13c90df28b792c6f4d3fa00fb78e40e98312096edf6d7eb656af945241958d83990
 {
     "schema":  1,
-    "serial":  16,
+    "serial":  17,
     "maps":  [
                  {
                      "code":  "TestFact",
@@ -49,7 +49,8 @@
                                      "url":  "maps/TestFact/preview.jpg",
                                      "size":  5997,
                                      "sha256":  "c19f7fdd352c789a813241f55e11bf7fc0403326c393382c3f0c32170317deb7"
-                                 }
+                                 },
+                     "recommendedPlayers":  4
                  },
                  {
                      "code":  "TestOfficial",
@@ -97,7 +98,8 @@
                                      "url":  "maps/TestOfficial/preview.jpg",
                                      "size":  10760,
                                      "sha256":  "a6fd174696eece02a39b4ea3c0754b2fb6e80c4dad708ca28125d7eefbb15102"
-                                 }
+                                 },
+                     "recommendedPlayers":  8
                  },
                  {
                      "code":  "TestWare",
@@ -146,7 +148,8 @@
                                      "url":  "maps/TestWare/preview.jpg",
                                      "size":  6917,
                                      "sha256":  "e05d002cd0140a123e4507796b8168bf7d26f24ad730fa9f2f8afc8c079716ea"
-                                 }
+                                 },
+                     "recommendedPlayers":  6
                  }
              ]
 }

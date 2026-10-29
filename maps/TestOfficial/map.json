@@ -6,6 +6,7 @@
                 ],
     "description":  "A renamed copy of Enhanced Schermerhorn, showing how an official Enhanced map is added: official.txt lists it, so every player installs it at startup and cannot delete it. Not a real map.",
     "game":  "enhanced",
+    "recommendedPlayers":  8,
     "revision":  7,
     "updated":  "2026-10-29",
     "archive":  {

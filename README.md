@@ -9,7 +9,8 @@ the map search dialog) lists every map here that a player does not have, and dow
   kept outside the repo; Reloaded rejects an index it did not sign.
 - `prohibited.txt` lists every package name Enhanced ships. No community map may reuse one.
 - `official.txt` lists the official maps, which every player installs and keeps up to date automatically
-  and cannot delete. Only the repo owners edit it; a `map.json` cannot make itself official.
+  and cannot delete, so the map browser does not list them. Only the repo owners edit it; a `map.json`
+  cannot make itself official.
 
 ## Adding a map or a new revision
 
@@ -29,11 +30,14 @@ the map search dialog) lists every map here that a player does not have, and dow
      "authors": ["Someone"],
      "description": "A few plain sentences.",
      "game": "enhanced",
+     "recommendedPlayers": 4,
      "playlists": ["Standard"],
      "variant": "Enhanced"
    }
    ```
    - `game` is `enhanced`, or `any` for a map that also loads in stock Versus.
+   - `recommendedPlayers`: how many players the map suits, both teams together: 1 (a solo training map),
+     2 (1v1), 4 (2v2), 6 (3v3) or 8 (4v4).
    - `playlists` (optional): playlists a first install adds the map to, by name, such as `Standard`,
      `Extended`, `Classic`, `3v3` or `Merc Deathmatch`. A player without that playlist is skipped.
    - `variant` (optional): a word in the title that marks it as a version of another map. A first install

@@ -6,6 +6,7 @@
                 ],
     "description":  "A renamed copy of Factory, for testing the map browser. Not a real community map.",
     "game":  "enhanced",
+    "recommendedPlayers":  4,
     "revision":  4,
     "updated":  "2026-10-29",
     "archive":  {
