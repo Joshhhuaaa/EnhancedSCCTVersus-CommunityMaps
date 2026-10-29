@@ -1,4 +1,3 @@
 # Official maps: every Reloaded player installs and updates these automatically, and cannot delete them.
 # One map code per line. Only the repo owners edit this file (see .github/CODEOWNERS); run
 # tools\Publish-Map.ps1 -Reindex after changing it.
-TestOfficial

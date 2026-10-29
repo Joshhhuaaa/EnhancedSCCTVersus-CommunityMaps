@@ -4,7 +4,7 @@
 #   tools\Publish-Map.ps1 -Code FortX -Files <folder laid out like Packages>            every new map or revision
 #   tools\Publish-Map.ps1 -Reindex                                                     after editing a map.json or preview.jpg
 #
-# Write maps\<Code>\map.json (code, title, authors, description, game, recommendedPlayers) before the first publish.
+# Write maps\<Code>\map.json (code, title, authors, description, recommendedPlayers) before the first publish.
 # -Local puts the zip under releases\ instead of a GitHub release, for testing with a local index.
 # The private key can put a map on every player's machine, so keep it out of the repo and back it up offline.
 [CmdletBinding(DefaultParameterSetName = 'Publish')]
@@ -48,7 +48,8 @@ function Publish-Index {
         $serial = [long]([Text.Encoding]::UTF8.GetString($previous.Payload) | ConvertFrom-Json).serial + 1
     }
 
-    $index = [ordered]@{ schema = $IndexSchema; serial = $serial; maps = Get-IndexEntries }
+    # @(): PowerShell unwraps a one-map list into the map itself, and Reloaded only reads a list.
+    $index = [ordered]@{ schema = $IndexSchema; serial = $serial; maps = @(Get-IndexEntries) }
     $payload = $Utf8NoBom.GetBytes(($index | ConvertTo-Json -Depth 8))
     $signer = New-Object System.Security.Cryptography.ECDsaCng ([System.Security.Cryptography.CngKey]::Import([IO.File]::ReadAllBytes($KeyPath), $privateBlob))
     $signature = ConvertTo-Hex $signer.SignData((Get-SignedMessage $payload), [System.Security.Cryptography.HashAlgorithmName]::SHA256)
@@ -118,7 +119,7 @@ if ($Reindex) {
 $mapDir = Join-Path $MapsDir $Code
 $mapJsonPath = Join-Path $mapDir 'map.json'
 if (-not (Test-Path $mapJsonPath)) {
-    throw "Write $mapJsonPath first, with code, title, authors, description, game and recommendedPlayers."
+    throw "Write $mapJsonPath first, with code, title, authors, description and recommendedPlayers."
 }
 if (-not (Test-Path $KeyPath)) {
     throw "No private key at $KeyPath."
@@ -224,7 +225,6 @@ try {
         title       = [string]$map.title
         authors     = @($map.authors | ForEach-Object { [string]$_ })
         description = [string]$map.description
-        game        = [string]$map.game
         recommendedPlayers = $map.recommendedPlayers
         revision    = $revision
         updated     = (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd')

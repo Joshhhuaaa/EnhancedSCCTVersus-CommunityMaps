@@ -29,13 +29,11 @@ the map search dialog) lists every map here that a player does not have, and dow
      "title": "Enhanced Fort X",
      "authors": ["Someone"],
      "description": "A few plain sentences.",
-     "game": "enhanced",
      "recommendedPlayers": 4,
      "playlists": ["Standard"],
      "variant": "Enhanced"
    }
    ```
-   - `game` is `enhanced`, or `any` for a map that also loads in stock Versus.
    - `recommendedPlayers`: how many players the map suits, both teams together: 1 (a solo training map),
      2 (1v1), 4 (2v2), 6 (3v3) or 8 (4v4).
    - `playlists` (optional): playlists a first install adds the map to, by name, such as `Standard`,
@@ -58,9 +56,7 @@ they update.
 
 Repo owners only. Before step 4 above, add the map's code to `official.txt`; `Publish-Map.ps1` then signs
 it into the index as official. Every player installs it the next time the game starts, without a prompt,
-and keeps it up to date; nobody can delete it from Reloaded. `maps/TestOfficial` is a worked example: an
-Enhanced map (`"game": "enhanced"`) that joins the `Standard` playlist and is sorted beside the map it is a
-version of by the `Enhanced` variant word.
+and keeps it up to date; nobody can delete it from Reloaded.
 
 ## Keys
 

@@ -21,7 +21,6 @@ $MaxPreviewSize = 256KB
 $MaxPreviewDimension = 512
 # Both teams together: solo training, then 1v1 to 4v4.
 $RecommendedPlayerCounts = @(1, 2, 4, 6, 8)
-$Games = @('enhanced', 'any')
 # The folders under Packages a map's files go in. The engine finds a searched package by name alone. The editor's copy
 # of the map (MapsEd) and its sound bank (.uas) are found by the map's name, so they are named after it.
 $PackageFolders = @(
@@ -167,7 +166,6 @@ function ConvertTo-IndexEntry($Map, [bool]$Official, $Preview) {
         title       = [string]$Map.title
         authors     = @($Map.authors | ForEach-Object { [string]$_ })
         description = [string]$Map.description
-        game        = [string]$Map.game
         revision    = [int]$Map.revision
         updated     = [string]$Map.updated
         archive     = [ordered]@{
@@ -269,9 +267,6 @@ function Test-MapEntry($Map, [string]$FolderName, $Prohibited) {
     }
     if (-not (Test-Property $Map 'description')) {
         $problems.Add('description is missing')
-    }
-    if ($Games -notcontains [string]$Map.game) {
-        $problems.Add("game must be one of: $($Games -join ', ')")
     }
     $players = $Map.recommendedPlayers
     if (-not ($players -is [int] -or $players -is [long]) -or $RecommendedPlayerCounts -notcontains $players) {

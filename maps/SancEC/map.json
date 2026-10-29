@@ -1,0 +1,39 @@
+{
+    "code":  "SancEC",
+    "title":  "Covert Sanctuary",
+    "authors":  [
+                    "CovertOwl"
+                ],
+    "description":  "A Covert version of Sanctuary for 2v2.",
+    "recommendedPlayers":  4,
+    "revision":  1,
+    "updated":  "2026-10-29",
+    "archive":  {
+                    "url":  "releases/SancEC-r1/SancEC-r1.zip",
+                    "size":  6980321,
+                    "sha256":  "db127b7ab20b35dbb1e6cd4de7ebaf6d0b9dec0712ba3e0538e0b10a02cc1245"
+                },
+    "files":  [
+                  {
+                      "path":  "Packages/Maps/SancEC.sdc",
+                      "size":  1038172,
+                      "sha256":  "639aefb0df8bef1738ed8a82311bc16e7d29c4430a0798b520eba7fa7fff18d7"
+                  },
+                  {
+                      "path":  "Packages/MapsEd/SancEC.sdc",
+                      "size":  1506042,
+                      "sha256":  "b4ee20b163fed90bb3e069ff3c5223f40afcf75faa9e1a6c474c672a3fad2ee9"
+                  },
+                  {
+                      "path":  "Packages/Sounds/SancEC.uas",
+                      "size":  4319133,
+                      "sha256":  "0f0ca36d61cac5a3843a0b77233c2201a1f17a06c8f09519429c39db31d0c9c0"
+                  },
+                  {
+                      "path":  "Packages/Textures/SancEC-i.utc",
+                      "size":  156912,
+                      "sha256":  "56ec6558f1dca753fb5d030ee96270d5b466891271b35feeef55f092e14d279b"
+                  }
+              ],
+    "variant":  "Covert"
+}

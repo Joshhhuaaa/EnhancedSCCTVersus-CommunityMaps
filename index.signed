@@ -1,155 +1,55 @@
-fa7fb9c584b68b9efd0364bea95144d99513b6a9ae2fa065f106029efefff13c90df28b792c6f4d3fa00fb78e40e98312096edf6d7eb656af945241958d83990
+786567af698d34325c18e067c1057a6e0a1b8ad8b534b43d647c8f579d974697e73da8ce4f93519d6866b012af89f2daa579c00e499c59d919a879c168196507
 {
     "schema":  1,
-    "serial":  17,
+    "serial":  20,
     "maps":  [
                  {
-                     "code":  "TestFact",
-                     "title":  "Test Factory",
+                     "code":  "SancEC",
+                     "title":  "Covert Sanctuary",
                      "authors":  [
-                                     "Reloaded test"
+                                     "CovertOwl"
                                  ],
-                     "description":  "A renamed copy of Factory, for testing the map browser. Not a real community map.",
-                     "game":  "enhanced",
-                     "revision":  4,
+                     "description":  "A Covert version of Sanctuary for 2v2.",
+                     "revision":  1,
                      "updated":  "2026-10-29",
                      "archive":  {
-                                     "url":  "releases/TestFact-r4/TestFact-r4.zip",
-                                     "size":  5876645,
-                                     "sha256":  "1dadfd127cf2f8bd862c32dbb00399df1bc9adcf9b3f4d7e253b05afcd56d471"
+                                     "url":  "releases/SancEC-r1/SancEC-r1.zip",
+                                     "size":  6980321,
+                                     "sha256":  "db127b7ab20b35dbb1e6cd4de7ebaf6d0b9dec0712ba3e0538e0b10a02cc1245"
                                  },
                      "files":  [
                                    {
-                                       "path":  "Packages/Maps/TestFact.sdc",
-                                       "size":  525986,
-                                       "sha256":  "f51e3b2bb04eaee40cc7569a3c5024992271422c1c23112b02a0d7cae30f8ad6"
+                                       "path":  "Packages/Maps/SancEC.sdc",
+                                       "size":  1038172,
+                                       "sha256":  "639aefb0df8bef1738ed8a82311bc16e7d29c4430a0798b520eba7fa7fff18d7"
                                    },
                                    {
-                                       "path":  "Packages/MapsEd/TestFact.sdc",
-                                       "size":  808687,
-                                       "sha256":  "3612d260fdb382d67cfca1538fb3ec9d019d0266b92eb571bdc83a22357c02c9"
+                                       "path":  "Packages/MapsEd/SancEC.sdc",
+                                       "size":  1506042,
+                                       "sha256":  "b4ee20b163fed90bb3e069ff3c5223f40afcf75faa9e1a6c474c672a3fad2ee9"
                                    },
                                    {
-                                       "path":  "Packages/Sounds/TestFact.uas",
-                                       "size":  4407880,
-                                       "sha256":  "6650bbcb770d1224714d2a0e90604fbcac78a53f1ea36dc2951c53d29f414c7b"
+                                       "path":  "Packages/Sounds/SancEC.uas",
+                                       "size":  4319133,
+                                       "sha256":  "0f0ca36d61cac5a3843a0b77233c2201a1f17a06c8f09519429c39db31d0c9c0"
                                    },
                                    {
-                                       "path":  "Packages/Textures/TestFact-i.utc",
-                                       "size":  183482,
-                                       "sha256":  "b5e4c5c5da5c88675009ec2181671576e267e6cebf31a18545cf8c7116ec750c"
+                                       "path":  "Packages/Textures/SancEC-i.utc",
+                                       "size":  156912,
+                                       "sha256":  "56ec6558f1dca753fb5d030ee96270d5b466891271b35feeef55f092e14d279b"
                                    }
                                ],
                      "official":  false,
                      "playlists":  [
 
                                    ],
-                     "variant":  "",
+                     "variant":  "Covert",
                      "preview":  {
-                                     "url":  "maps/TestFact/preview.jpg",
-                                     "size":  5997,
-                                     "sha256":  "c19f7fdd352c789a813241f55e11bf7fc0403326c393382c3f0c32170317deb7"
+                                     "url":  "",
+                                     "size":  0,
+                                     "sha256":  ""
                                  },
                      "recommendedPlayers":  4
-                 },
-                 {
-                     "code":  "TestOfficial",
-                     "title":  "Enhanced Schermerhorn (Test)",
-                     "authors":  [
-                                     "Reloaded test"
-                                 ],
-                     "description":  "A renamed copy of Enhanced Schermerhorn, showing how an official Enhanced map is added: official.txt lists it, so every player installs it at startup and cannot delete it. Not a real map.",
-                     "game":  "enhanced",
-                     "revision":  7,
-                     "updated":  "2026-10-29",
-                     "archive":  {
-                                     "url":  "releases/TestOfficial-r7/TestOfficial-r7.zip",
-                                     "size":  5415544,
-                                     "sha256":  "b77fa4c66132edf7cb9d6b7dad951ad5c7e4d3ea053e867702180159e37ec1f0"
-                                 },
-                     "files":  [
-                                   {
-                                       "path":  "Packages/Maps/TestOfficial.sdc",
-                                       "size":  470573,
-                                       "sha256":  "c34acaf3df1ce5393d277f0e62d17ec1291292e9d5c6796a906426551b04c890"
-                                   },
-                                   {
-                                       "path":  "Packages/MapsEd/TestOfficial.sdc",
-                                       "size":  1020886,
-                                       "sha256":  "2f202c663e62c0261bb246f9162e43c7a79fd133399694ddeecacc0d9981ebd5"
-                                   },
-                                   {
-                                       "path":  "Packages/Sounds/TestOfficial.uas",
-                                       "size":  3805109,
-                                       "sha256":  "05d5955a48eebea1cffc77ce7a5093da0caeeb7fcfd7a3d3789c0e35c88bd17f"
-                                   },
-                                   {
-                                       "path":  "Packages/Textures/TestOfficial-i.utc",
-                                       "size":  151206,
-                                       "sha256":  "5387f6cf4e8e5afe1fa489d3ca26509a33679d73ec47f5333535f53c101ad552"
-                                   }
-                               ],
-                     "official":  true,
-                     "playlists":  [
-                                       "Standard"
-                                   ],
-                     "variant":  "Enhanced",
-                     "preview":  {
-                                     "url":  "maps/TestOfficial/preview.jpg",
-                                     "size":  10760,
-                                     "sha256":  "a6fd174696eece02a39b4ea3c0754b2fb6e80c4dad708ca28125d7eefbb15102"
-                                 },
-                     "recommendedPlayers":  8
-                 },
-                 {
-                     "code":  "TestWare",
-                     "title":  "Test Warehouse",
-                     "authors":  [
-                                     "Reloaded test",
-                                     "Second author"
-                                 ],
-                     "description":  "A renamed copy of Warehouse, for testing the map browser. Not a real community map.",
-                     "game":  "any",
-                     "revision":  4,
-                     "updated":  "2026-10-29",
-                     "archive":  {
-                                     "url":  "releases/TestWare-r4/TestWare-r4.zip",
-                                     "size":  7005230,
-                                     "sha256":  "e8a0893c435fbb93b83fea4766e4cfb98d5ba026ad16d55945c8abd336009563"
-                                 },
-                     "files":  [
-                                   {
-                                       "path":  "Packages/Maps/TestWare.sdc",
-                                       "size":  895196,
-                                       "sha256":  "9c408cfb34021c3635db53fb26cfa7ca061664c844ee89d25854dc2eb8482944"
-                                   },
-                                   {
-                                       "path":  "Packages/MapsEd/TestWare.sdc",
-                                       "size":  1702455,
-                                       "sha256":  "5ddb511eab29c25e033d2e7dc820703a2e0e7a891a5565fb6fe0da90281aeba7"
-                                   },
-                                   {
-                                       "path":  "Packages/Sounds/TestWare.uas",
-                                       "size":  4280674,
-                                       "sha256":  "e16f028a328af0b2fd4f12063c85d69f347ed1b1b106a4f95762e0aa323821fe"
-                                   },
-                                   {
-                                       "path":  "Packages/Textures/TestWare-i.utc",
-                                       "size":  178830,
-                                       "sha256":  "ddba87b6092029ba733f9d5042f5f9d771bfbd0f3e537dc743aa75ef28cea39e"
-                                   }
-                               ],
-                     "official":  false,
-                     "playlists":  [
-
-                                   ],
-                     "variant":  "",
-                     "preview":  {
-                                     "url":  "maps/TestWare/preview.jpg",
-                                     "size":  6917,
-                                     "sha256":  "e05d002cd0140a123e4507796b8168bf7d26f24ad730fa9f2f8afc8c079716ea"
-                                 },
-                     "recommendedPlayers":  6
                  }
              ]
 }

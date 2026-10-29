@@ -62,6 +62,10 @@ else {
     if ([int]$parsed.schema -ne $IndexSchema) {
         $problems.Add("index.signed is schema $($parsed.schema), not $IndexSchema")
     }
+    # The comparison below unwraps a one-map list the same way on both sides, so it cannot tell.
+    if ($null -ne $parsed.maps -and $parsed.maps -isnot [array]) {
+        $problems.Add('index.signed lists its maps as one object, which Reloaded cannot read: run tools\Publish-Map.ps1 -Reindex')
+    }
     $listed = (@($parsed.maps | ForEach-Object { ConvertTo-IndexEntry $_ ([bool]$_.official) $_.preview }) | ConvertTo-Json -Depth 8 -Compress)
     $expected = (Get-IndexEntries | ConvertTo-Json -Depth 8 -Compress)
     if ($listed -cne $expected) {
