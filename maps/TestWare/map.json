@@ -7,18 +7,18 @@
                 ],
     "description":  "A renamed copy of Warehouse, for testing the map browser. Not a real community map.",
     "game":  "any",
-    "revision":  1,
-    "updated":  "2026-10-28",
+    "revision":  3,
+    "updated":  "2026-10-29",
     "archive":  {
-                    "url":  "releases/TestWare-r1/TestWare-r1.zip",
-                    "size":  1060984,
-                    "sha256":  "bee5248255caca538d8856040915ae21267d88fc584e4faecda8b1e49fd43120"
+                    "url":  "releases/TestWare-r3/TestWare-r3.zip",
+                    "size":  1060988,
+                    "sha256":  "dfdfee42b1ca8130aa7c978e1842cae703718cb3eb2712334fa0652d20e6d2d0"
                 },
     "files":  [
                   {
                       "path":  "Packages/Maps/TestWare.sdc",
-                      "size":  895190,
-                      "sha256":  "00ee0cda386283b23120f955da89386f920adfc30a8f1e9078615f42e4f7ff0c"
+                      "size":  895194,
+                      "sha256":  "98300b30192b7e846326a8c3eae1b1f0cd594e8c697b6d4d5b83b1b94425f53b"
                   },
                   {
                       "path":  "Packages/Textures/TestWare-i.utc",

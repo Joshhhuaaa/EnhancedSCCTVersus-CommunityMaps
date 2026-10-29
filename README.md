@@ -44,6 +44,14 @@ preview needs no new revision.
 A new revision changes the map's package, so players on different revisions cannot join each other until
 they update.
 
+## Adding an official map
+
+Repo owners only. Before step 4 above, add the map's code to `official.txt`; `Publish-Map.ps1` then signs
+it into the index as official. Every player installs it the next time the game starts, without a prompt,
+and keeps it up to date; nobody can delete it from Reloaded. `maps/TestOfficial` is a worked example: an
+Enhanced map (`"game": "enhanced"`) that joins the `Standard` playlist and is sorted beside the map it is a
+version of by the `Enhanced` variant word.
+
 ## Keys
 
 `tools\Publish-Map.ps1 -NewKey` creates the signing key once, writes `signing-key.pub`, and prints the

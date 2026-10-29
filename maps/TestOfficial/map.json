@@ -1,0 +1,32 @@
+{
+    "code":  "TestOfficial",
+    "title":  "Enhanced Shadow Moses (Test)",
+    "authors":  [
+                    "Reloaded test"
+                ],
+    "description":  "A renamed copy of Shadow Moses, showing how an official Enhanced map is added: official.txt lists it, so every player installs it at startup and cannot delete it. Not a real map.",
+    "game":  "enhanced",
+    "revision":  3,
+    "updated":  "2026-10-29",
+    "archive":  {
+                    "url":  "releases/TestOfficial-r3/TestOfficial-r3.zip",
+                    "size":  490143,
+                    "sha256":  "3d81da6452bba1e90ddda9e44697767f160cb6de037e292ff9e54343b53ec260"
+                },
+    "files":  [
+                  {
+                      "path":  "Packages/Maps/TestOfficial.sdc",
+                      "size":  391429,
+                      "sha256":  "db9d36dc02c42e493007c80334396f3d7b82e9a9cccbc59c5345f771f3d2cc62"
+                  },
+                  {
+                      "path":  "Packages/Textures/TestOfficial-i.utc",
+                      "size":  104458,
+                      "sha256":  "22e50412642ba6bd5d5bfc992be0ca6e8151e4641d9087e930b348bfdfafbb48"
+                  }
+              ],
+    "playlists":  [
+                      "Standard"
+                  ],
+    "variant":  "Enhanced"
+}

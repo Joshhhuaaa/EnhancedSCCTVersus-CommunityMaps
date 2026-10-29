@@ -1,7 +1,7 @@
-aaa41277665f9fa73a83c12ab88a5971e7d86817c2f8d864ff853c8f3631b51feb7188155774c2e7dadd8b7207e6ed62b2fdd70083090c3eef1c3800b9b186c6
+b7eba706fba1b1009ef3ce26255dac7c627c3da2622d22dd9d3100ea5129bfed71a64856dfa7fbc8e1f181183ba072c203d45182c146a7a6b6f691cb83d77609
 {
     "schema":  1,
-    "serial":  3,
+    "serial":  10,
     "maps":  [
                  {
                      "code":  "TestFact",
@@ -11,18 +11,18 @@ aaa41277665f9fa73a83c12ab88a5971e7d86817c2f8d864ff853c8f3631b51feb7188155774c2e7
                                  ],
                      "description":  "A renamed copy of Factory, for testing the map browser. Not a real community map.",
                      "game":  "enhanced",
-                     "revision":  1,
-                     "updated":  "2026-10-28",
+                     "revision":  3,
+                     "updated":  "2026-10-29",
                      "archive":  {
-                                     "url":  "releases/TestFact-r1/TestFact-r1.zip",
-                                     "size":  705251,
-                                     "sha256":  "374e692ecd2d4ebd14408f740e275bcbf9c0e3926a05343832d44f1cc2a4408f"
+                                     "url":  "releases/TestFact-r3/TestFact-r3.zip",
+                                     "size":  705255,
+                                     "sha256":  "d273b7bd26c1462330e9e0e6751366607fa4d4851454fe5c71baaf047c591ef4"
                                  },
                      "files":  [
                                    {
                                        "path":  "Packages/Maps/TestFact.sdc",
-                                       "size":  525980,
-                                       "sha256":  "53a1c0cd3977986ac49bc2b4aa06911428cf909d8c5623f19b2678f5f77c1b75"
+                                       "size":  525984,
+                                       "sha256":  "b87cade433def9b536988cadf315b098cf254aac93430ff766039751af8fe30b"
                                    },
                                    {
                                        "path":  "Packages/Textures/TestFact-i.utc",
@@ -37,8 +37,46 @@ aaa41277665f9fa73a83c12ab88a5971e7d86817c2f8d864ff853c8f3631b51feb7188155774c2e7
                      "variant":  "",
                      "preview":  {
                                      "url":  "maps/TestFact/preview.jpg",
-                                     "size":  5347,
-                                     "sha256":  "90ea1349c0db21ff15cf88d2a976e8cec76b873fee09c5f17aff01805b5201a3"
+                                     "size":  6073,
+                                     "sha256":  "2cb823f82844bb57a57b945184de8849c416cdcbdf081adf630c2a68d778aca3"
+                                 }
+                 },
+                 {
+                     "code":  "TestOfficial",
+                     "title":  "Enhanced Shadow Moses (Test)",
+                     "authors":  [
+                                     "Reloaded test"
+                                 ],
+                     "description":  "A renamed copy of Shadow Moses, showing how an official Enhanced map is added: official.txt lists it, so every player installs it at startup and cannot delete it. Not a real map.",
+                     "game":  "enhanced",
+                     "revision":  3,
+                     "updated":  "2026-10-29",
+                     "archive":  {
+                                     "url":  "releases/TestOfficial-r3/TestOfficial-r3.zip",
+                                     "size":  490143,
+                                     "sha256":  "3d81da6452bba1e90ddda9e44697767f160cb6de037e292ff9e54343b53ec260"
+                                 },
+                     "files":  [
+                                   {
+                                       "path":  "Packages/Maps/TestOfficial.sdc",
+                                       "size":  391429,
+                                       "sha256":  "db9d36dc02c42e493007c80334396f3d7b82e9a9cccbc59c5345f771f3d2cc62"
+                                   },
+                                   {
+                                       "path":  "Packages/Textures/TestOfficial-i.utc",
+                                       "size":  104458,
+                                       "sha256":  "22e50412642ba6bd5d5bfc992be0ca6e8151e4641d9087e930b348bfdfafbb48"
+                                   }
+                               ],
+                     "official":  true,
+                     "playlists":  [
+                                       "Standard"
+                                   ],
+                     "variant":  "Enhanced",
+                     "preview":  {
+                                     "url":  "maps/TestOfficial/preview.jpg",
+                                     "size":  11615,
+                                     "sha256":  "d69912558af70bc3c9e2fd0fd64c168b562d0d1896c008762799160ea9f6fce3"
                                  }
                  },
                  {
@@ -50,18 +88,18 @@ aaa41277665f9fa73a83c12ab88a5971e7d86817c2f8d864ff853c8f3631b51feb7188155774c2e7
                                  ],
                      "description":  "A renamed copy of Warehouse, for testing the map browser. Not a real community map.",
                      "game":  "any",
-                     "revision":  1,
-                     "updated":  "2026-10-28",
+                     "revision":  3,
+                     "updated":  "2026-10-29",
                      "archive":  {
-                                     "url":  "releases/TestWare-r1/TestWare-r1.zip",
-                                     "size":  1060984,
-                                     "sha256":  "bee5248255caca538d8856040915ae21267d88fc584e4faecda8b1e49fd43120"
+                                     "url":  "releases/TestWare-r3/TestWare-r3.zip",
+                                     "size":  1060988,
+                                     "sha256":  "dfdfee42b1ca8130aa7c978e1842cae703718cb3eb2712334fa0652d20e6d2d0"
                                  },
                      "files":  [
                                    {
                                        "path":  "Packages/Maps/TestWare.sdc",
-                                       "size":  895190,
-                                       "sha256":  "00ee0cda386283b23120f955da89386f920adfc30a8f1e9078615f42e4f7ff0c"
+                                       "size":  895194,
+                                       "sha256":  "98300b30192b7e846326a8c3eae1b1f0cd594e8c697b6d4d5b83b1b94425f53b"
                                    },
                                    {
                                        "path":  "Packages/Textures/TestWare-i.utc",
@@ -76,8 +114,8 @@ aaa41277665f9fa73a83c12ab88a5971e7d86817c2f8d864ff853c8f3631b51feb7188155774c2e7
                      "variant":  "",
                      "preview":  {
                                      "url":  "maps/TestWare/preview.jpg",
-                                     "size":  6297,
-                                     "sha256":  "3060edf4b3d72b804dfb187c5078879ee8c71d9f03fd3ee51b28339621cff76b"
+                                     "size":  6981,
+                                     "sha256":  "a5e173d71a0c8f1eafc92fbbf2c3c7648dbf46b4ad48306bab0c962afc8ed12a"
                                  }
                  }
              ]

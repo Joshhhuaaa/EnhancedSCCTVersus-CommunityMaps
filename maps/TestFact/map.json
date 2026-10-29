@@ -6,18 +6,18 @@
                 ],
     "description":  "A renamed copy of Factory, for testing the map browser. Not a real community map.",
     "game":  "enhanced",
-    "revision":  1,
-    "updated":  "2026-10-28",
+    "revision":  3,
+    "updated":  "2026-10-29",
     "archive":  {
-                    "url":  "releases/TestFact-r1/TestFact-r1.zip",
-                    "size":  705251,
-                    "sha256":  "374e692ecd2d4ebd14408f740e275bcbf9c0e3926a05343832d44f1cc2a4408f"
+                    "url":  "releases/TestFact-r3/TestFact-r3.zip",
+                    "size":  705255,
+                    "sha256":  "d273b7bd26c1462330e9e0e6751366607fa4d4851454fe5c71baaf047c591ef4"
                 },
     "files":  [
                   {
                       "path":  "Packages/Maps/TestFact.sdc",
-                      "size":  525980,
-                      "sha256":  "53a1c0cd3977986ac49bc2b4aa06911428cf909d8c5623f19b2678f5f77c1b75"
+                      "size":  525984,
+                      "sha256":  "b87cade433def9b536988cadf315b098cf254aac93430ff766039751af8fe30b"
                   },
                   {
                       "path":  "Packages/Textures/TestFact-i.utc",
