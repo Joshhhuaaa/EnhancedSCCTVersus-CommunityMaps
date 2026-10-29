@@ -1,7 +1,7 @@
-786567af698d34325c18e067c1057a6e0a1b8ad8b534b43d647c8f579d974697e73da8ce4f93519d6866b012af89f2daa579c00e499c59d919a879c168196507
+4ae224202cc5bf9cd51c21c15dc2c9ddbc15f29c5a8bf9a97811e0fc3d4109a19b8ca8fa219edb50b86568fd3193449bd47584f37f3ceee48185adf66e89f270
 {
     "schema":  1,
-    "serial":  20,
+    "serial":  21,
     "maps":  [
                  {
                      "code":  "SancEC",
@@ -9,7 +9,7 @@
                      "authors":  [
                                      "CovertOwl"
                                  ],
-                     "description":  "A Covert version of Sanctuary for 2v2.",
+                     "description":  "A version of Sanctuary with expanded movement options and more stealth opportunities.",
                      "revision":  1,
                      "updated":  "2026-10-29",
                      "archive":  {
