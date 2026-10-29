@@ -20,16 +20,18 @@ $MaxNameLength = 64
 $MaxPreviewSize = 256KB
 $MaxPreviewDimension = 512
 $Games = @('enhanced', 'any')
-# The folders the engine searches, by package extension.
-$PackageFolders = @{
-    '.sdc' = 'Packages/Maps'
-    '.utx' = 'Packages/Textures'
-    '.utc' = 'Packages/Textures'
-    '.usx' = 'Packages/StaticMeshes'
-    '.uax' = 'Packages/Sounds'
-    '.ukx' = 'Packages/Animations'
-    '.umx' = 'Packages/Music'
-}
+# The folders under Packages a map's files go in. The engine finds a searched package by name alone. The editor's copy
+# of the map (MapsEd) and its sound bank (.uas) are found by the map's name, so they are named after it.
+$PackageFolders = @(
+    [pscustomobject]@{ Folder = 'Maps'; Extension = '.sdc'; Searched = $true }
+    [pscustomobject]@{ Folder = 'MapsEd'; Extension = '.sdc'; Searched = $false }
+    [pscustomobject]@{ Folder = 'Textures'; Extension = '.utx'; Searched = $true }
+    [pscustomobject]@{ Folder = 'Textures'; Extension = '.utc'; Searched = $true }
+    [pscustomobject]@{ Folder = 'StaticMeshes'; Extension = '.usx'; Searched = $true }
+    [pscustomobject]@{ Folder = 'Sounds'; Extension = '.uax'; Searched = $true }
+    [pscustomobject]@{ Folder = 'Sounds'; Extension = '.uas'; Searched = $false }
+    [pscustomobject]@{ Folder = 'Animations'; Extension = '.ukx'; Searched = $true }
+)
 # A map folder holds its metadata only; packages go in releases.
 $MapFolderFiles = @('map.json', 'preview.jpg')
 
@@ -70,6 +72,21 @@ function Write-Json($Value, [string]$Path) {
 
 function Get-PackageName([string]$Path) {
     [IO.Path]::GetFileNameWithoutExtension($Path)
+}
+
+# The $PackageFolders entry of a path such as Packages/Maps/FortX.sdc, or $null when the game does not read it.
+function Get-PackageFolder([string]$Path) {
+    $parts = $Path -split '/'
+    if ($parts.Count -ne 3 -or $parts[0] -cne 'Packages' -or (Get-PackageName $Path) -notmatch $CodePattern) {
+        return $null
+    }
+    $extension = [IO.Path]::GetExtension($Path)
+    $PackageFolders | Where-Object { $_.Folder -ceq $parts[1] -and $_.Extension -ceq $extension } | Select-Object -First 1
+}
+
+# Every map has these. The sound bank holds at least the win, lose and objective sounds.
+function Get-RequiredFiles([string]$Code) {
+    @("Packages/Maps/$Code.sdc", "Packages/MapsEd/$Code.sdc", "Packages/Sounds/$Code.uas")
 }
 
 function Test-Property($Object, [string]$Name) {
@@ -274,16 +291,17 @@ function Test-MapEntry($Map, [string]$FolderName, $Prohibited) {
         $problems.Add('archive needs url, size and sha256')
     }
 
-    $mapFile = "Packages/Maps/$code.sdc"
-    $hasMapFile = $false
+    $paths = @($Map.files | ForEach-Object { [string]$_.path })
     foreach ($file in @($Map.files)) {
         $path = [string]$file.path
-        $extension = [IO.Path]::GetExtension($path)
         $name = Get-PackageName $path
-        if ($extension -cne $extension.ToLowerInvariant() -or -not $PackageFolders.ContainsKey($extension) -or
-            $path -cne "$($PackageFolders[$extension])/$name$extension" -or $name -notmatch $CodePattern) {
-            $problems.Add("$path is not a package path the engine searches")
+        $folder = Get-PackageFolder $path
+        if (-not $folder) {
+            $problems.Add("$path is not a file the game reads from Packages")
             continue
+        }
+        if (-not $folder.Searched -and $name -cne $code) {
+            $problems.Add("$path must be named $code$($folder.Extension): the game finds it by the map's name")
         }
         if ($Prohibited.Contains($name)) {
             $problems.Add("$path uses the name of a package Enhanced ships")
@@ -291,12 +309,11 @@ function Test-MapEntry($Map, [string]$FolderName, $Prohibited) {
         if ([long]$file.size -le 0 -or [string]$file.sha256 -notmatch '^[0-9a-f]{64}$') {
             $problems.Add("$path needs size and sha256")
         }
-        if ($path -ceq $mapFile) {
-            $hasMapFile = $true
-        }
     }
-    if (-not $hasMapFile) {
-        $problems.Add("files has no $mapFile")
+    foreach ($required in Get-RequiredFiles $code) {
+        if ($paths -cnotcontains $required) {
+            $problems.Add("files has no $required")
+        }
     }
     return $problems
 }

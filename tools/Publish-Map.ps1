@@ -1,7 +1,7 @@
 # Publishes a map revision and re-signs index.signed, the file Reloaded's map browser reads.
 #
 #   tools\Publish-Map.ps1 -NewKey [-HeaderPath <Reloaded.Core\MapIndexSigningKey.h>]   once: creates the key pair
-#   tools\Publish-Map.ps1 -Code FortX -Files <folder of the map's packages>            every new map or revision
+#   tools\Publish-Map.ps1 -Code FortX -Files <folder laid out like Packages>            every new map or revision
 #   tools\Publish-Map.ps1 -Reindex                                                     after editing a map.json or preview.jpg
 #
 # Write maps\<Code>\map.json (code, title, authors, description, game) before the first publish.
@@ -136,39 +136,53 @@ foreach ($folder in Get-MapFolders) {
     }
     $other = Read-MapJson (Join-Path $folder.FullName 'map.json')
     foreach ($file in @($other.files)) {
-        $takenNames[(Get-PackageName ([string]$file.path))] = $folder.Name
+        $otherFolder = Get-PackageFolder ([string]$file.path)
+        if ($otherFolder -and $otherFolder.Searched) {
+            $takenNames[(Get-PackageName ([string]$file.path))] = $folder.Name
+        }
     }
 }
 
-$sources = @(Get-ChildItem -LiteralPath $Files -File -Recurse)
+# The files are laid out as in the game's Packages folder: Maps\<Code>.sdc, MapsEd\<Code>.sdc, Sounds\<Code>.uas, ...
+$root = (Resolve-Path -LiteralPath $Files).Path.TrimEnd('\')
+$sources = @(Get-ChildItem -LiteralPath $root -File -Recurse)
 $packages = foreach ($source in $sources) {
+    $relative = $source.FullName.Substring($root.Length + 1)
+    $parts = $relative -split '\\'
     $extension = $source.Extension.ToLowerInvariant()
-    if (-not $PackageFolders.ContainsKey($extension)) {
-        throw "$($source.Name) is not a package type the engine loads from Packages\."
+    $folder = $null
+    if ($parts.Count -eq 2) {
+        $folder = $PackageFolders | Where-Object { $_.Folder -ieq $parts[0] -and $_.Extension -ceq $extension } | Select-Object -First 1
+    }
+    if (-not $folder) {
+        throw "$relative is not a file the game reads from Packages. Lay the folder out as Packages is: Maps\$Code.sdc, MapsEd\$Code.sdc, Sounds\$Code.uas, Textures\..."
     }
     $name = Get-PackageName $source.Name
-    if ($extension -eq '.sdc') {
+    if ($name -notmatch $CodePattern) {
+        throw "${relative}: package names may only use letters, digits, '_' and '-'."
+    }
+    # The map package, its editor copy and its sound bank.
+    if ($folder.Folder -ceq 'Maps' -or -not $folder.Searched) {
         if ($name -ne $Code) {
-            throw "$($source.Name): the map package must be named $Code.sdc."
+            throw "$relative must be named $Code$extension."
         }
         $name = $Code
     }
-    if ($name -notmatch $CodePattern) {
-        throw "$($source.Name): package names may only use letters, digits, '_' and '-'."
-    }
     if ($prohibited.Contains($name)) {
-        throw "$($source.Name) has the name of a package Enhanced ships."
+        throw "$relative has the name of a package Enhanced ships."
     }
-    if ($takenNames.ContainsKey($name)) {
-        throw "$($source.Name) has the name of a package in $($takenNames[$name])."
+    if ($folder.Searched -and $takenNames.ContainsKey($name)) {
+        throw "$relative has the name of a package in $($takenNames[$name])."
     }
-    [pscustomobject]@{ Source = $source.FullName; Path = "$($PackageFolders[$extension])/$name$extension"; Name = $name }
+    [pscustomobject]@{ Source = $source.FullName; Path = "Packages/$($folder.Folder)/$name$extension"; Name = $name; Searched = $folder.Searched }
 }
 $packages = @($packages | Sort-Object Path)
-if (@($packages | Where-Object { $_.Path -ceq "Packages/Maps/$Code.sdc" }).Count -ne 1) {
-    throw "$Files has no $Code.sdc."
+foreach ($required in Get-RequiredFiles $Code) {
+    if (@($packages | Where-Object { $_.Path -ceq $required }).Count -eq 0) {
+        throw "$Files has no $($required.Substring('Packages/'.Length).Replace('/', '\')). Every map needs its package, its editor copy (MapsEd) and its sound bank, with at least the win, lose and objective sounds."
+    }
 }
-$duplicate = $packages | Group-Object Name | Where-Object Count -gt 1 | Select-Object -First 1
+$duplicate = $packages | Where-Object Searched | Group-Object Name | Where-Object Count -gt 1 | Select-Object -First 1
 if ($duplicate) {
     throw "Two packages are named $($duplicate.Name); the engine finds packages by name alone."
 }

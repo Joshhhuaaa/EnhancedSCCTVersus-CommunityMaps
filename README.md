@@ -13,8 +13,14 @@ the map search dialog) lists every map here that a player does not have, and dow
 
 ## Adding a map or a new revision
 
-1. Put the map's packages in a folder: `<Code>.sdc`, `<Code>-i.utc`, and any textures, static meshes, sounds
-   or animations it needs.
+1. Put the map's files in a folder laid out like the game's `Packages` folder:
+   - `Maps\<Code>.sdc`, the map;
+   - `MapsEd\<Code>.sdc`, the editor's copy of it, so others can open it;
+   - `Sounds\<Code>.uas`, its sound bank, with at least the win, lose and objective sounds;
+   - `Textures\<Code>-i.utc`, and any textures (`Textures\*.utx`), static meshes (`StaticMeshes\*.usx`),
+     sounds (`Sounds\*.uax`) or animations (`Animations\*.ukx`) it needs.
+
+   The first three are required.
 2. For a new map, write `maps/<Code>/map.json`:
    ```json
    {

@@ -26,6 +26,10 @@ foreach ($folder in Get-MapFolders) {
         $problems.Add("maps/$($folder.Name): $problem")
     }
     foreach ($file in @($map.files)) {
+        $packageFolder = Get-PackageFolder ([string]$file.path)
+        if (-not $packageFolder -or -not $packageFolder.Searched) {
+            continue
+        }
         $name = Get-PackageName ([string]$file.path)
         if ($owners.ContainsKey($name)) {
             $problems.Add("maps/$($folder.Name): package $name is also in maps/$($owners[$name])")
