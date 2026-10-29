@@ -8,9 +8,13 @@ $owners = New-Object 'System.Collections.Generic.Dictionary[string,string]' ([St
 
 foreach ($folder in Get-MapFolders) {
     foreach ($file in Get-ChildItem -LiteralPath $folder.FullName -Recurse) {
-        if ($file.PSIsContainer -or $MapFolderFiles -notcontains $file.Name) {
+        # Case-sensitive: GitHub serves preview.jpg by its exact name.
+        if ($file.PSIsContainer -or $MapFolderFiles -cnotcontains $file.Name) {
             $problems.Add("maps/$($folder.Name)/$($file.Name): a map folder holds only $($MapFolderFiles -join ' and '); packages go in releases")
         }
+    }
+    foreach ($problem in @(Test-Preview $folder)) {
+        $problems.Add("maps/$($folder.Name): $problem")
     }
     $mapJson = Join-Path $folder.FullName 'map.json'
     if (-not (Test-Path $mapJson)) {
@@ -54,10 +58,10 @@ else {
     if ([int]$parsed.schema -ne $IndexSchema) {
         $problems.Add("index.signed is schema $($parsed.schema), not $IndexSchema")
     }
-    $listed = (@($parsed.maps | ForEach-Object { ConvertTo-IndexEntry $_ ([bool]$_.official) }) | ConvertTo-Json -Depth 8 -Compress)
+    $listed = (@($parsed.maps | ForEach-Object { ConvertTo-IndexEntry $_ ([bool]$_.official) $_.preview }) | ConvertTo-Json -Depth 8 -Compress)
     $expected = (Get-IndexEntries | ConvertTo-Json -Depth 8 -Compress)
     if ($listed -cne $expected) {
-        $problems.Add('index.signed does not match the map.json files: run tools\Publish-Map.ps1 -Reindex')
+        $problems.Add('index.signed does not match the map folders: run tools\Publish-Map.ps1 -Reindex')
     }
 }
 

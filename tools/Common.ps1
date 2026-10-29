@@ -17,6 +17,8 @@ $MaxCodeLength = 20
 $CodePattern = '^[A-Za-z0-9_-]+$'
 # A playlist name or variant word.
 $MaxNameLength = 64
+$MaxPreviewSize = 256KB
+$MaxPreviewDimension = 512
 $Games = @('enhanced', 'any')
 # The folders the engine searches, by package extension.
 $PackageFolders = @{
@@ -74,8 +76,73 @@ function Test-Property($Object, [string]$Name) {
     $null -ne $Object.PSObject.Properties[$Name]
 }
 
+# Width and height from a JPEG's frame header, or $null when it is not a JPEG.
+function Get-JpegSize([byte[]]$Bytes) {
+    if ($Bytes.Length -lt 4 -or $Bytes[0] -ne 0xFF -or $Bytes[1] -ne 0xD8) {
+        return $null
+    }
+    $i = 2
+    while ($i + 3 -lt $Bytes.Length) {
+        if ($Bytes[$i] -ne 0xFF) {
+            return $null
+        }
+        $marker = $Bytes[$i + 1]
+        if ($marker -eq 0xFF) {
+            $i++
+            continue
+        }
+        $i += 2
+        if ($marker -eq 0x01 -or ($marker -ge 0xD0 -and $marker -le 0xD8)) {
+            continue
+        }
+        # The image data or its end, with no frame header before it.
+        if ($marker -eq 0xD9 -or $marker -eq 0xDA) {
+            return $null
+        }
+        # Every SOFn but the DHT, JPG and DAC markers that share the range.
+        if ($marker -ge 0xC0 -and $marker -le 0xCF -and $marker -notin 0xC4, 0xC8, 0xCC) {
+            if ($i + 6 -ge $Bytes.Length) {
+                return $null
+            }
+            return [pscustomobject]@{ Width = $Bytes[$i + 5] * 256 + $Bytes[$i + 6]; Height = $Bytes[$i + 3] * 256 + $Bytes[$i + 4] }
+        }
+        $i += $Bytes[$i] * 256 + $Bytes[$i + 1]
+    }
+    return $null
+}
+
+# Problems with a map folder's preview.jpg; empty when it is fine or there is none.
+function Test-Preview($Folder) {
+    $problems = New-Object System.Collections.Generic.List[string]
+    $path = Join-Path $Folder.FullName 'preview.jpg'
+    if (-not (Test-Path -LiteralPath $path)) {
+        return $problems
+    }
+    $bytes = [IO.File]::ReadAllBytes($path)
+    if ($bytes.Length -gt $MaxPreviewSize) {
+        $problems.Add("preview.jpg is larger than $($MaxPreviewSize / 1KB) KB")
+    }
+    $size = Get-JpegSize $bytes
+    if (-not $size) {
+        $problems.Add('preview.jpg is not a JPEG')
+    }
+    elseif ($size.Width -gt $MaxPreviewDimension -or $size.Height -gt $MaxPreviewDimension) {
+        $problems.Add("preview.jpg is $($size.Width)x$($size.Height); the most is $($MaxPreviewDimension)x$MaxPreviewDimension")
+    }
+    return $problems
+}
+
+# A map folder's preview as the index lists it, relative to index.signed; $null without a preview.jpg.
+function Get-PreviewEntry($Folder) {
+    $path = Join-Path $Folder.FullName 'preview.jpg'
+    if (-not (Test-Path -LiteralPath $path)) {
+        return $null
+    }
+    [ordered]@{ url = "maps/$($Folder.Name)/preview.jpg"; size = (Get-Item -LiteralPath $path).Length; sha256 = Get-Sha256 $path }
+}
+
 # The index entry for a map.json, fields in index order.
-function ConvertTo-IndexEntry($Map, [bool]$Official) {
+function ConvertTo-IndexEntry($Map, [bool]$Official, $Preview) {
     [ordered]@{
         code        = [string]$Map.code
         title       = [string]$Map.title
@@ -95,6 +162,7 @@ function ConvertTo-IndexEntry($Map, [bool]$Official) {
         official    = $Official
         playlists   = @($Map.playlists | Where-Object { $null -ne $_ } | ForEach-Object { [string]$_ })
         variant     = [string]$Map.variant
+        preview     = [ordered]@{ url = [string]$Preview.url; size = [long]$Preview.size; sha256 = [string]$Preview.sha256 }
     }
 }
 
@@ -107,7 +175,9 @@ function Get-MapFolders {
 
 function Get-IndexEntries {
     $official = Get-Official
-    @(Get-MapFolders | ForEach-Object { ConvertTo-IndexEntry (Read-MapJson (Join-Path $_.FullName 'map.json')) $official.Contains($_.Name) })
+    @(Get-MapFolders | ForEach-Object {
+            ConvertTo-IndexEntry (Read-MapJson (Join-Path $_.FullName 'map.json')) $official.Contains($_.Name) (Get-PreviewEntry $_)
+        })
 }
 
 # The signature line and the JSON after it, or null when there is no index yet.

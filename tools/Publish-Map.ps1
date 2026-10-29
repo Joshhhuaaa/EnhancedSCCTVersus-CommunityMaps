@@ -2,7 +2,7 @@
 #
 #   tools\Publish-Map.ps1 -NewKey [-HeaderPath <Reloaded.Core\MapIndexSigningKey.h>]   once: creates the key pair
 #   tools\Publish-Map.ps1 -Code FortX -Files <folder of the map's packages>            every new map or revision
-#   tools\Publish-Map.ps1 -Reindex                                                     after editing a map.json by hand
+#   tools\Publish-Map.ps1 -Reindex                                                     after editing a map.json or preview.jpg
 #
 # Write maps\<Code>\map.json (code, title, authors, description, game) before the first publish.
 # -Local puts the zip under releases\ instead of a GitHub release, for testing with a local index.
@@ -35,6 +35,12 @@ $publicBlob = [System.Security.Cryptography.CngKeyBlobFormat]::EccPublicBlob
 function Publish-Index {
     if (-not (Test-Path $KeyPath)) {
         throw "No private key at $KeyPath."
+    }
+    foreach ($folder in Get-MapFolders) {
+        $problems = @(Test-Preview $folder)
+        if ($problems.Count -gt 0) {
+            throw "maps/$($folder.Name): $($problems -join '; ')"
+        }
     }
     $previous = Read-SignedIndex
     $serial = 1

@@ -1,7 +1,7 @@
-3d88639b24289415716f6dd47b27e88d965c6d325eb121ac05357cfb224804e911ea4b2d56951ff8a403c74ddceea8af19314ba552ce6cb5265613ee563a0010
+aaa41277665f9fa73a83c12ab88a5971e7d86817c2f8d864ff853c8f3631b51feb7188155774c2e7dadd8b7207e6ed62b2fdd70083090c3eef1c3800b9b186c6
 {
     "schema":  1,
-    "serial":  2,
+    "serial":  3,
     "maps":  [
                  {
                      "code":  "TestFact",
@@ -29,7 +29,17 @@
                                        "size":  183482,
                                        "sha256":  "b5e4c5c5da5c88675009ec2181671576e267e6cebf31a18545cf8c7116ec750c"
                                    }
-                               ]
+                               ],
+                     "official":  false,
+                     "playlists":  [
+
+                                   ],
+                     "variant":  "",
+                     "preview":  {
+                                     "url":  "maps/TestFact/preview.jpg",
+                                     "size":  5347,
+                                     "sha256":  "90ea1349c0db21ff15cf88d2a976e8cec76b873fee09c5f17aff01805b5201a3"
+                                 }
                  },
                  {
                      "code":  "TestWare",
@@ -58,7 +68,17 @@
                                        "size":  178830,
                                        "sha256":  "ddba87b6092029ba733f9d5042f5f9d771bfbd0f3e537dc743aa75ef28cea39e"
                                    }
-                               ]
+                               ],
+                     "official":  false,
+                     "playlists":  [
+
+                                   ],
+                     "variant":  "",
+                     "preview":  {
+                                     "url":  "maps/TestWare/preview.jpg",
+                                     "size":  6297,
+                                     "sha256":  "3060edf4b3d72b804dfb187c5078879ee8c71d9f03fd3ee51b28339621cff76b"
+                                 }
                  }
              ]
 }
