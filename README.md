@@ -43,7 +43,9 @@ the map search dialog) lists every map here that a player does not have, and dow
 3. Optionally add `maps/<Code>/preview.jpg`, the picture the browser shows: a JPEG of at most 512x512 and
    256 KB. Players download it once, and again only when it changes.
 4. Run `tools\Publish-Map.ps1 -Code FortX -Files <folder>`. It zips the packages, creates the release with
-   the GitHub CLI, fills in the rest of `map.json` and re-signs the index.
+   the GitHub CLI, fills in the rest of `map.json` and re-signs the index. With `-Local` the zip goes under
+   `releases\` instead, for testing with a local index; `tools\Publish-Map.ps1 -Code FortX -Upload` then
+   publishes that same revision.
 5. Commit and push. The Validate workflow checks every map and the index.
 
 After editing a `map.json`, a `preview.jpg` or `official.txt`, run `tools\Publish-Map.ps1 -Reindex`. A new

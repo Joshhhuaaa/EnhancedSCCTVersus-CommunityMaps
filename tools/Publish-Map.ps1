@@ -2,17 +2,20 @@
 #
 #   tools\Publish-Map.ps1 -NewKey [-HeaderPath <Reloaded.Core\MapIndexSigningKey.h>]   once: creates the key pair
 #   tools\Publish-Map.ps1 -Code FortX -Files <folder laid out like Packages>            every new map or revision
+#   tools\Publish-Map.ps1 -Code FortX -Upload                                          after testing a -Local revision
 #   tools\Publish-Map.ps1 -Reindex                                                     after editing a map.json or preview.jpg
 #
 # Write maps\<Code>\map.json (code, title, authors, description, recommendedPlayers) before the first publish.
-# -Local puts the zip under releases\ instead of a GitHub release, for testing with a local index.
+# -Local puts the zip under releases\ instead of a GitHub release, for testing with a local index. -Upload then
+# publishes that same revision to GitHub, so testing it does not cost a revision.
 # The private key can put a map on every player's machine, so keep it out of the repo and back it up offline.
 [CmdletBinding(DefaultParameterSetName = 'Publish')]
 param(
-    [Parameter(ParameterSetName = 'Publish', Mandatory = $true)][string]$Code,
+    [Parameter(ParameterSetName = 'Publish', Mandatory = $true)][Parameter(ParameterSetName = 'Upload', Mandatory = $true)][string]$Code,
     [Parameter(ParameterSetName = 'Publish', Mandatory = $true)][string]$Files,
     [Parameter(ParameterSetName = 'Publish')][switch]$Local,
-    [Parameter(ParameterSetName = 'Publish')][string]$Repo,
+    [Parameter(ParameterSetName = 'Upload', Mandatory = $true)][switch]$Upload,
+    [Parameter(ParameterSetName = 'Publish')][Parameter(ParameterSetName = 'Upload')][string]$Repo,
     [Parameter(ParameterSetName = 'Reindex', Mandatory = $true)][switch]$Reindex,
     [Parameter(ParameterSetName = 'NewKey', Mandatory = $true)][switch]$NewKey,
     [Parameter(ParameterSetName = 'NewKey')][string]$HeaderPath,
@@ -63,6 +66,21 @@ function Publish-Index {
     [Array]::Copy($payload, 0, $file, $signatureLine.Length, $payload.Length)
     [IO.File]::WriteAllBytes($IndexPath, $file)
     Write-Host "Signed index.signed, serial $serial, $($index.maps.Count) maps."
+}
+
+function Get-ReleaseUrl([string]$Tag) {
+    "https://github.com/$Repo/releases/download/$Tag/$Tag.zip"
+}
+
+# $Map is the published map.json, for the release's title.
+function New-Release([string]$Tag, [string]$ZipPath, $Map) {
+    if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
+        throw 'Install the GitHub CLI (gh), or pass -Local to test with a local index.'
+    }
+    & gh release create $Tag $ZipPath --repo $Repo --title "$($Map.title) r$($Map.revision)" --notes "$($Map.title), revision $($Map.revision)."
+    if ($LASTEXITCODE -ne 0) {
+        throw 'gh release create failed.'
+    }
 }
 
 if ($NewKey) {
@@ -127,6 +145,24 @@ if (-not (Test-Path $KeyPath)) {
 $map = Read-MapJson $mapJsonPath
 if ([string]$map.code -cne $Code) {
     throw "$mapJsonPath has code '$($map.code)', not '$Code'."
+}
+
+if ($Upload) {
+    $tag = "$Code-r$([int]$map.revision)"
+    $zipPath = Join-Path $RepoRoot "releases\$tag\$tag.zip"
+    if ([string]$map.archive.url -cne "releases/$tag/$tag.zip") {
+        throw "$mapJsonPath does not list a -Local revision."
+    }
+    if (-not (Test-Path -LiteralPath $zipPath) -or (Get-Item -LiteralPath $zipPath).Length -ne [long]$map.archive.size -or
+        (Get-Sha256 $zipPath) -cne [string]$map.archive.sha256) {
+        throw "$zipPath is missing or is not the zip $mapJsonPath lists."
+    }
+    New-Release $tag $zipPath $map
+    $map.archive.url = Get-ReleaseUrl $tag
+    Write-Json $map $mapJsonPath
+    Write-Host "Published $tag ($($map.archive.url))."
+    Publish-Index
+    return
 }
 
 $prohibited = Get-Prohibited
@@ -219,7 +255,7 @@ try {
         $zip.Dispose()
     }
 
-    $url = if ($Local) { "releases/$tag/$zipName" } else { "https://github.com/$Repo/releases/download/$tag/$zipName" }
+    $url = if ($Local) { "releases/$tag/$zipName" } else { Get-ReleaseUrl $tag }
     $published = [ordered]@{
         code        = $Code
         title       = [string]$map.title
@@ -250,13 +286,7 @@ try {
         Copy-Item -LiteralPath $zipPath -Destination $releaseDir -Force
     }
     else {
-        if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
-            throw 'Install the GitHub CLI (gh), or pass -Local to test with a local index.'
-        }
-        & gh release create $tag $zipPath --repo $Repo --title "$($map.title) r$revision" --notes "$($map.title), revision $revision."
-        if ($LASTEXITCODE -ne 0) {
-            throw 'gh release create failed.'
-        }
+        New-Release $tag $zipPath $published
     }
     Write-Json $published $mapJsonPath
     Write-Host "Published $tag ($url)."

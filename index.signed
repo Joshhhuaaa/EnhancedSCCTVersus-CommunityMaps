@@ -1,7 +1,7 @@
-4ae224202cc5bf9cd51c21c15dc2c9ddbc15f29c5a8bf9a97811e0fc3d4109a19b8ca8fa219edb50b86568fd3193449bd47584f37f3ceee48185adf66e89f270
+f5fb2a176cddfc0df08135678ea1b049c19f9befb81dd71c55114c2a2419fda5c600c5259238fc55fa3ec8a7169b758be339aa904502b7aca8f4d8395cd0debf
 {
     "schema":  1,
-    "serial":  21,
+    "serial":  22,
     "maps":  [
                  {
                      "code":  "SancEC",
@@ -13,7 +13,7 @@
                      "revision":  1,
                      "updated":  "2026-10-29",
                      "archive":  {
-                                     "url":  "releases/SancEC-r1/SancEC-r1.zip",
+                                     "url":  "https://github.com/Joshhhuaaa/EnhancedSCCTVersus-CommunityMaps/releases/download/SancEC-r1/SancEC-r1.zip",
                                      "size":  6980321,
                                      "sha256":  "db127b7ab20b35dbb1e6cd4de7ebaf6d0b9dec0712ba3e0538e0b10a02cc1245"
                                  },
