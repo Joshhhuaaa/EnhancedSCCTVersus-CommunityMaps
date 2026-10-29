@@ -5,15 +5,18 @@ $RepoRoot = Split-Path $PSScriptRoot -Parent
 $MapsDir = Join-Path $RepoRoot 'maps'
 $IndexPath = Join-Path $RepoRoot 'index.signed'
 $ProhibitedPath = Join-Path $RepoRoot 'prohibited.txt'
+$OfficialPath = Join-Path $RepoRoot 'official.txt'
 $PublicKeyPath = Join-Path $RepoRoot 'signing-key.pub'
 $DefaultKeyPath = Join-Path $env:USERPROFILE '.scct-reloaded\map-index-signing.key'
-$DefaultRepo = 'Joshhhuaaa/EnhancedSCCTVersus_CommunityMaps'
+$DefaultRepo = 'Joshhhuaaa/EnhancedSCCTVersus-CommunityMaps'
 
 # Must match CommunityMaps.cpp in Reloaded.Core.
 $IndexSchema = 1
 $IndexSignatureHeader = "SCCT Versus Reloaded map index`n"
 $MaxCodeLength = 20
 $CodePattern = '^[A-Za-z0-9_-]+$'
+# A playlist name or variant word.
+$MaxNameLength = 64
 $Games = @('enhanced', 'any')
 # The folders the engine searches, by package extension.
 $PackageFolders = @{
@@ -34,14 +37,25 @@ function Get-Sha256([string]$Path) {
     (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant()
 }
 
-function Get-Prohibited {
+function Read-NameList([string]$Path) {
     $names = New-Object 'System.Collections.Generic.HashSet[string]' ([StringComparer]::OrdinalIgnoreCase)
-    foreach ($line in Get-Content -LiteralPath $ProhibitedPath) {
-        if ($line -and -not $line.StartsWith('#')) {
-            [void]$names.Add($line.Trim())
+    if (Test-Path -LiteralPath $Path) {
+        foreach ($line in Get-Content -LiteralPath $Path) {
+            if ($line.Trim() -and -not $line.StartsWith('#')) {
+                [void]$names.Add($line.Trim())
+            }
         }
     }
     return , $names
+}
+
+function Get-Prohibited {
+    Read-NameList $ProhibitedPath
+}
+
+# Codes every player installs. Only the repo owners edit official.txt.
+function Get-Official {
+    Read-NameList $OfficialPath
 }
 
 function Read-MapJson([string]$Path) {
@@ -61,7 +75,7 @@ function Test-Property($Object, [string]$Name) {
 }
 
 # The index entry for a map.json, fields in index order.
-function ConvertTo-IndexEntry($Map) {
+function ConvertTo-IndexEntry($Map, [bool]$Official) {
     [ordered]@{
         code        = [string]$Map.code
         title       = [string]$Map.title
@@ -78,6 +92,9 @@ function ConvertTo-IndexEntry($Map) {
         files       = @($Map.files | ForEach-Object {
                 [ordered]@{ path = [string]$_.path; size = [long]$_.size; sha256 = [string]$_.sha256 }
             })
+        official    = $Official
+        playlists   = @($Map.playlists | Where-Object { $null -ne $_ } | ForEach-Object { [string]$_ })
+        variant     = [string]$Map.variant
     }
 }
 
@@ -89,7 +106,8 @@ function Get-MapFolders {
 }
 
 function Get-IndexEntries {
-    @(Get-MapFolders | ForEach-Object { ConvertTo-IndexEntry (Read-MapJson (Join-Path $_.FullName 'map.json')) })
+    $official = Get-Official
+    @(Get-MapFolders | ForEach-Object { ConvertTo-IndexEntry (Read-MapJson (Join-Path $_.FullName 'map.json')) $official.Contains($_.Name) })
 }
 
 # The signature line and the JSON after it, or null when there is no index yet.
@@ -164,6 +182,18 @@ function Test-MapEntry($Map, [string]$FolderName, $Prohibited) {
     }
     if ($Games -notcontains [string]$Map.game) {
         $problems.Add("game must be one of: $($Games -join ', ')")
+    }
+    if (Test-Property $Map 'official') {
+        $problems.Add('official is not a map.json field: the repo owners list official maps in official.txt')
+    }
+    $variant = [string]$Map.variant
+    if ($variant.Length -gt $MaxNameLength -or $variant.Contains(' ')) {
+        $problems.Add("variant must be one word of at most $MaxNameLength characters")
+    }
+    foreach ($playlist in @($Map.playlists | Where-Object { $null -ne $_ })) {
+        if (-not [string]$playlist -or ([string]$playlist).Length -gt $MaxNameLength) {
+            $problems.Add("playlist names must be 1-$MaxNameLength characters")
+        }
     }
     if (-not (Test-Property $Map 'revision') -or [int]$Map.revision -lt 1) {
         $problems.Add('not published yet: run tools\Publish-Map.ps1')

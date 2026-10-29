@@ -1,0 +1,6 @@
+# Changes to these need an owner's review once branch protection requires code owner reviews.
+/official.txt @Joshhhuaaa
+/prohibited.txt @Joshhhuaaa
+/signing-key.pub @Joshhhuaaa
+/tools/ @Joshhhuaaa
+/.github/ @Joshhhuaaa

@@ -32,6 +32,14 @@ foreach ($folder in Get-MapFolders) {
     }
 }
 
+$mapCodes = @(Get-MapFolders | ForEach-Object { $_.Name })
+$official = Get-Official
+foreach ($code in $official) {
+    if ($mapCodes -notcontains $code) {
+        $problems.Add("official.txt lists $code, which has no folder in maps/")
+    }
+}
+
 $index = Read-SignedIndex
 if (-not $index) {
     if ((Get-MapFolders).Count -gt 0) {
@@ -46,7 +54,7 @@ else {
     if ([int]$parsed.schema -ne $IndexSchema) {
         $problems.Add("index.signed is schema $($parsed.schema), not $IndexSchema")
     }
-    $listed = (@($parsed.maps | ForEach-Object { ConvertTo-IndexEntry $_ }) | ConvertTo-Json -Depth 8 -Compress)
+    $listed = (@($parsed.maps | ForEach-Object { ConvertTo-IndexEntry $_ ([bool]$_.official) }) | ConvertTo-Json -Depth 8 -Compress)
     $expected = (Get-IndexEntries | ConvertTo-Json -Depth 8 -Compress)
     if ($listed -cne $expected) {
         $problems.Add('index.signed does not match the map.json files: run tools\Publish-Map.ps1 -Reindex')

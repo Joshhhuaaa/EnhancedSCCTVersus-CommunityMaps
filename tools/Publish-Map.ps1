@@ -212,6 +212,12 @@ try {
                 [ordered]@{ path = $_.Path; size = (Get-Item -LiteralPath $_.Source).Length; sha256 = Get-Sha256 $_.Source }
             })
     }
+    if (Test-Property $map 'playlists') {
+        $published.playlists = @($map.playlists | ForEach-Object { [string]$_ })
+    }
+    if (Test-Property $map 'variant') {
+        $published.variant = [string]$map.variant
+    }
     $problems = @(Test-MapEntry ([pscustomobject]$published | ConvertTo-Json -Depth 8 | ConvertFrom-Json) $Code $prohibited)
     if ($problems.Count -gt 0) {
         throw "map.json: $($problems -join '; ')"

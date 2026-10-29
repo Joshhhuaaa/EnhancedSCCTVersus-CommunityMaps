@@ -1,13 +1,15 @@
 # Enhanced SCCT Versus community maps
 
-Community maps for Splinter Cell: Chaos Theory Versus. SCCT Versus Reloaded's map browser (Settings → Maps)
-lists every map here that a player does not have, and downloads and updates them.
+Community maps for Splinter Cell: Chaos Theory Versus. SCCT Versus Reloaded's map browser (**Install maps** in
+the map search dialog) lists every map here that a player does not have, and downloads and updates them.
 
 - `maps/<Code>/map.json` describes one map. `<Code>` is the map's package name.
 - The packages themselves are release assets, one release per revision (`<Code>-r<N>`).
 - `index.signed` lists every map for the browser. Only `tools\Publish-Map.ps1` writes it, signed with a key
   kept outside the repo; Reloaded rejects an index it did not sign.
 - `prohibited.txt` lists every package name Enhanced ships. No community map may reuse one.
+- `official.txt` lists the official maps, which every player installs and keeps up to date automatically
+  and cannot delete. Only the repo owners edit it; a `map.json` cannot make itself official.
 
 ## Adding a map or a new revision
 
@@ -17,18 +19,24 @@ lists every map here that a player does not have, and downloads and updates them
    ```json
    {
      "code": "FortX",
-     "title": "Fort X",
+     "title": "Enhanced Fort X",
      "authors": ["Someone"],
      "description": "A few plain sentences.",
-     "game": "enhanced"
+     "game": "enhanced",
+     "playlists": ["Standard"],
+     "variant": "Enhanced"
    }
    ```
-   `game` is `enhanced`, or `any` for a map that also loads in stock Versus.
+   - `game` is `enhanced`, or `any` for a map that also loads in stock Versus.
+   - `playlists` (optional): playlists a first install adds the map to, by name, such as `Standard`,
+     `Extended`, `Classic`, `3v3` or `Merc Deathmatch`. A player without that playlist is skipped.
+   - `variant` (optional): a word in the title that marks it as a version of another map. A first install
+     adds it to the player's variant words, so the map search dialog sorts the map with the original.
 3. Run `tools\Publish-Map.ps1 -Code FortX -Files <folder>`. It zips the packages, creates the release with
    the GitHub CLI, fills in the rest of `map.json` and re-signs the index.
 4. Commit and push. The Validate workflow checks every map and the index.
 
-After editing a title or description by hand, run `tools\Publish-Map.ps1 -Reindex`.
+After editing a `map.json` or `official.txt` by hand, run `tools\Publish-Map.ps1 -Reindex`.
 
 A new revision changes the map's package, so players on different revisions cannot join each other until
 they update.
