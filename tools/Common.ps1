@@ -87,7 +87,7 @@ function Get-PackageFolder([string]$Path) {
 
 # Every map has these. The sound bank holds at least the win, lose and objective sounds.
 function Get-RequiredFiles([string]$Code) {
-    @("Packages/Maps/$Code.sdc", "Packages/MapsEd/$Code.sdc", "Packages/Sounds/$Code.uas")
+    @("Packages/Maps/$Code.sdc", "Packages/MapsEd/$Code.sdc", "Packages/Sounds/$Code.uas", "Packages/Textures/$Code-i.utc")
 }
 
 function Test-Property($Object, [string]$Name) {

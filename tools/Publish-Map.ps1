@@ -216,7 +216,7 @@ $packages = foreach ($source in $sources) {
 $packages = @($packages | Sort-Object Path)
 foreach ($required in Get-RequiredFiles $Code) {
     if (@($packages | Where-Object { $_.Path -ceq $required }).Count -eq 0) {
-        throw "$Files has no $($required.Substring('Packages/'.Length).Replace('/', '\')). Every map needs its package, its editor copy (MapsEd) and its sound bank, with at least the win, lose and objective sounds."
+        throw "$Files has no $($required.Substring('Packages/'.Length).Replace('/', '\')). Every map needs its package, its editor copy (MapsEd), its sound bank, with at least the win, lose and objective sounds, and its map settings (Textures\$Code-i.utc)."
     }
 }
 $duplicate = $packages | Where-Object Searched | Group-Object Name | Where-Object Count -gt 1 | Select-Object -First 1
