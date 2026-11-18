@@ -1,67 +1,72 @@
-# Enhanced SCCT Versus community maps
+# Enhanced SCCT Versus Community Maps
+Enhanced SCCT Versus Community Maps is the repository of community-made maps for Splinter Cell: Chaos Theory's Versus mode. The map browser in [SCCT Versus Reloaded](https://allypal.github.io/SCCT_Versus_Reloaded/) (**Install Maps** in the map search dialog) lists every map here that a player does not have, and downloads and updates them.
 
-Community maps for Splinter Cell: Chaos Theory Versus. SCCT Versus Reloaded's map browser (**Install maps** in
-the map search dialog) lists every map here that a player does not have, and downloads and updates them.
+## Submission Guidelines
+- The map must be playable with little to no errors and support every game mode: Story, Disk Hunt, Deathmatch and Merc Deathmatch.
+  - It is recommended to add extra PlayerStarts for Merc Deathmatch. 12 is a good amount for most maps. In the PlayerStart properties, set `bMercDeathMatchStart=True` to use it for that mode.
+- `Textures\<Map>-i.utc` must include a map name as well as lobby and loading screen textures at minimum. Briefings are recommended.
+- Include a sound bank (`Sounds\<Map>.uas`) with at least the win, lose and objective sounds.
+- Include the editor copy (`MapsEd\<Map>.sdc`). It is not needed to play the map, but it is required so the map can be reviewed for any flaws during submission.
+- Do not modify any packages from the stock game or those included with Enhanced SCCT Versus.
+- Provide the authors, a short description and the recommended player count (1, 2, 4, 6 or 8).
+- No pornographic, hateful or illegal material.
+- Try to keep the map at 50 MB or under. Larger maps are considered case by case.
 
-- `maps/<Code>/map.json` describes one map. `<Code>` is the map's package name.
-- The packages themselves are release assets, one release per revision (`<Code>-r<N>`).
-- `index.signed` lists every map for the browser. Only `tools\Publish-Map.ps1` writes it, signed with a key
-  kept outside the repo; Reloaded rejects an index it did not sign.
-- `prohibited.txt` lists every package name Enhanced ships. No community map may reuse one.
-- `official.txt` lists the official maps, which every player installs and keeps up to date automatically
-  and cannot delete, so the map browser does not list them. Only the repo owners edit it; a `map.json`
-  cannot make itself official.
+---
 
-## Adding a map or a new revision
+# Maintainer Guide
+> [!NOTE]
+> The following sections are for repository maintainers only. Map authors do not need to follow these steps, see [Submission Guidelines](#submission-guidelines) above.
 
-1. Put the map's files in a folder laid out like the game's `Packages` folder:
-   - `Maps\<Code>.sdc`, the map;
-   - `MapsEd\<Code>.sdc`, the editor's copy of it, so others can open it;
-   - `Sounds\<Code>.uas`, its sound bank, with at least the win, lose and objective sounds;
-   - `Textures\<Code>-i.utc`, and any textures (`Textures\*.utx`), static meshes (`StaticMeshes\*.usx`),
-     sounds (`Sounds\*.uax`) or animations (`Animations\*.ukx`) it needs.
+## Repository Layout
+- `maps/<Map>/map.json` describes one map, where `<Map>` is the map's package name.
+- The map packages are uploaded as release assets, with one release per revision (`<Map>-r<N>`).
+- `index.signed` lists every map for the browser. It is only written by `tools\Publish-Map.ps1` and is signed with a private key kept outside the repository. Reloaded rejects any index it did not sign.
+- `prohibited.txt` lists every package name that ships with Enhanced SCCT Versus. Community maps cannot reuse any of these names.
+- `official.txt` lists the official maps. Every player installs these automatically, keeps them up to date and cannot delete them, so they are not listed in the map browser. Only the repository owners edit this file, and a `map.json` cannot make itself official.
 
-   The first three are required.
-2. For a new map, write `maps/<Code>/map.json`:
-   ```json
-   {
-     "code": "FortX",
-     "title": "Enhanced Fort X",
-     "authors": ["Someone"],
-     "description": "A few plain sentences.",
-     "recommendedPlayers": 4,
-     "playlists": ["Standard"],
-     "variant": "Enhanced"
-   }
-   ```
-   - `recommendedPlayers`: how many players the map suits, both teams together: 1 (a solo training map),
-     2 (1v1), 4 (2v2), 6 (3v3) or 8 (4v4).
-   - `playlists` (optional): playlists a first install adds the map to, by name, such as `Standard`,
-     `Extended`, `Classic`, `3v3` or `Merc Deathmatch`. A player without that playlist is skipped.
-   - `variant` (optional): a word in the title that marks it as a version of another map. A first install
-     adds it to the player's variant words, so the map search dialog sorts the map with the original.
-3. Optionally add `maps/<Code>/preview.jpg`, the picture the browser shows: a JPEG of at most 512x512 and
-   256 KB. Players download it once, and again only when it changes.
-4. Run `tools\Publish-Map.ps1 -Code FortX -Files <folder>`. It zips the packages, creates the release with
-   the GitHub CLI, fills in the rest of `map.json` and re-signs the index. With `-Local` the zip goes under
-   `releases\` instead, for testing with a local index; `tools\Publish-Map.ps1 -Code FortX -Upload` then
-   publishes that same revision.
-5. Commit and push. The Validate workflow checks every map and the index.
+## Adding a Map
+### Prepare the Files
+Place the map's files in a folder laid out like the game's `Packages` folder:
+- `Maps\<Map>.sdc` is the map itself.
+- `MapsEd\<Map>.sdc` is the editor copy of the map.
+- `Sounds\<Map>.uas` is the map's sound bank, with at least the win, lose and objective sounds.
+- `Textures\<Map>-i.utc` is the map's `SMapSettings`: the map name, session parameters such as match length, team lives and respawn time, briefing text, and the map thumbnail, briefing and loading screen textures.
+- Any other packages the map needs: textures (`Textures\*.utx`), static meshes (`StaticMeshes\*.usx`), sounds (`Sounds\*.uax`) or animations (`Animations\*.ukx`).
 
-After editing a `map.json`, a `preview.jpg` or `official.txt`, run `tools\Publish-Map.ps1 -Reindex`. A new
-preview needs no new revision.
+The first four are required.
 
-A new revision changes the map's package, so players on different revisions cannot join each other until
-they update.
+### Write map.json
+For a new map, create `maps/<Map>/map.json`:
+```json
+{
+  "code": "FortX",
+  "title": "Enhanced Fort X",
+  "authors": ["Someone"],
+  "description": "A few plain sentences.",
+  "recommendedPlayers": 4,
+  "playlists": ["Standard"],
+  "variant": "Enhanced"
+}
+```
+- `recommendedPlayers` is how many players the map suits, both teams together: 1 (a solo training map), 2 (1v1), 4 (2v2), 6 (3v3) or 8 (4v4).
+- `playlists` (optional) are the playlists the map is added to on first install, such as `Standard`, `Extended`, `Classic`, `3v3` or `Merc Deathmatch`. Players without that playlist are skipped.
+- `variant` (optional) is a word in the title that marks the map as a version of another map. On first install it is added to the player's variant words, so the map search dialog sorts the map next to the original. Leave it out for an original map.
 
-## Adding an official map
+### Add a Preview
+Optionally add `maps/<Map>/preview.jpg`, the picture shown in the map browser. It must be a JPEG of at most 512x512 and 256 KB. JPEG does not support transparency, so the image should be solid. Players download it once, and again only when it changes.
 
-Repo owners only. Before step 4 above, add the map's code to `official.txt`; `Publish-Map.ps1` then signs
-it into the index as official. Every player installs it the next time the game starts, without a prompt,
-and keeps it up to date; nobody can delete it from Reloaded.
+### Publish
+Run `tools\Publish-Map.ps1 -Code <Map> -Files <folder>`. It zips the packages, creates the release with the GitHub CLI, fills in the rest of `map.json` and re-signs the index. With `-Local`, the zip is placed under `releases\` instead, for testing with a local index. `tools\Publish-Map.ps1 -Code <Map> -Upload` then publishes that same revision.
 
-## Keys
+Commit and push. The Validate workflow checks every map and the index.
 
-`tools\Publish-Map.ps1 -NewKey` creates the signing key once, writes `signing-key.pub`, and prints the
-`MapIndexSigningKey.h` that Reloaded.Core is built with. Back the private key up offline; losing it means
-a Reloaded release before the browser accepts a new one.
+## Updating a Map
+- After editing a `map.json`, a `preview.jpg` or `official.txt`, run `tools\Publish-Map.ps1 -Reindex`. A new preview does not need a new revision.
+- Publishing the map again creates a new revision. A new revision changes the map's packages, so players on different revisions cannot join each other until they update.
+
+## Adding an Official Map
+Before publishing, add the map's code to `official.txt`, and `Publish-Map.ps1` will sign it into the index as official. Every player installs it the next time the game starts, without a prompt, and keeps it up to date. Official maps cannot be deleted from Reloaded.
+
+## Signing Key
+`tools\Publish-Map.ps1 -NewKey` creates the signing key once, writes `signing-key.pub` and prints the `MapIndexSigningKey.h` that Reloaded.Core is built with. Back up the private key offline. If it is lost, a new Reloaded release is required before the browser accepts a new key.
