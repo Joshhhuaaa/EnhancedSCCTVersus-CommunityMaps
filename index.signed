@@ -1,8 +1,72 @@
-f5fb2a176cddfc0df08135678ea1b049c19f9befb81dd71c55114c2a2419fda5c600c5259238fc55fa3ec8a7169b758be339aa904502b7aca8f4d8395cd0debf
+ab99e779018bdc6617308d9c3beb15027d83ceaf5f5f247fc2dd3a53d25c0ea013756eb65ab7eddc8c301b9d74782cccae6f423d3741ee175ded4c51520c2ae4
 {
     "schema":  1,
-    "serial":  22,
+    "serial":  26,
     "maps":  [
+                 {
+                     "code":  "MaisD",
+                     "title":  "Maisonette 9",
+                     "authors":  [
+                                     "ParagonMitchell",
+                                     "Joshhhuaaa"
+                                 ],
+                     "description":  "This upscale nightclub has recently become a meeting point for several high-ranking criminal figures.",
+                     "revision":  1,
+                     "updated":  "2026-11-18",
+                     "archive":  {
+                                     "url":  "https://github.com/Joshhhuaaa/EnhancedSCCTVersus-CommunityMaps/releases/download/MaisD-r1/MaisD-r1.zip",
+                                     "size":  28537415,
+                                     "sha256":  "fd2ae8061012d2192e90ec65c62c9ca8c7bde31772311992b8adc40483f19be9"
+                                 },
+                     "files":  [
+                                   {
+                                       "path":  "Packages/Maps/MaisD.sdc",
+                                       "size":  1924195,
+                                       "sha256":  "922bf38375935551985c1198c1dcbbe1bf3e1532ac1246dafac1e4849e10b0c0"
+                                   },
+                                   {
+                                       "path":  "Packages/MapsEd/MaisD.sdc",
+                                       "size":  2622804,
+                                       "sha256":  "07d44c32761e5af6af169bcb726f752277fed3e2531dc7be61ba692d11025f48"
+                                   },
+                                   {
+                                       "path":  "Packages/Sounds/Amb_Mais.uax",
+                                       "size":  1094243,
+                                       "sha256":  "366f227e228d885209735f42112d51dc9b8ab32344c215e818f70d1778cfcecf"
+                                   },
+                                   {
+                                       "path":  "Packages/Sounds/MaisD.uas",
+                                       "size":  4795239,
+                                       "sha256":  "a92bf7871db1df2720be64d007b7e55f205142693bc0f3425660bdbae3f7dcfa"
+                                   },
+                                   {
+                                       "path":  "Packages/StaticMeshes/Maisonette_STM.usx",
+                                       "size":  9563083,
+                                       "sha256":  "7d0176587d3e7ea6d2a72b9961c239a98a8225854ba83a8b50a112d31a3a858d"
+                                   },
+                                   {
+                                       "path":  "Packages/Textures/MaisD-i.utc",
+                                       "size":  230628,
+                                       "sha256":  "8d94c2ef5466c211850e6290bb2e8e82217065a0a988e6e89bcc88d0fbb3d1ed"
+                                   },
+                                   {
+                                       "path":  "Packages/Textures/Maisonette_TXT.utx",
+                                       "size":  24354242,
+                                       "sha256":  "ab0a6b609374fe569e2d29b429edb73db2db6d3963dfc45fb9553d2eb0affe54"
+                                   }
+                               ],
+                     "official":  false,
+                     "playlists":  [
+                                       "Extended"
+                                   ],
+                     "variant":  "",
+                     "preview":  {
+                                     "url":  "maps/MaisD/preview.jpg",
+                                     "size":  21679,
+                                     "sha256":  "54c0041ea91b61bc32efc067464b086948a906ba520e55b48881d03dbbfdb223"
+                                 },
+                     "recommendedPlayers":  4
+                 },
                  {
                      "code":  "SancEC",
                      "title":  "Covert Sanctuary",
