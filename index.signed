@@ -1,8 +1,72 @@
-ab99e779018bdc6617308d9c3beb15027d83ceaf5f5f247fc2dd3a53d25c0ea013756eb65ab7eddc8c301b9d74782cccae6f423d3741ee175ded4c51520c2ae4
+1e9ee9001440006d30692990a4d7b08984d607edf1ce8773130e74c056566702acd10c6b6e0aa746f4c5bdc91287dc6c426a94efefc3b2ab874e35674bab841f
 {
     "schema":  1,
-    "serial":  26,
+    "serial":  27,
     "maps":  [
+                 {
+                     "code":  "ArcaT",
+                     "title":  "Arcade",
+                     "authors":  [
+                                     "Rev"
+                                 ],
+                     "description":  "An arcade of chaotic matters",
+                     "revision":  1,
+                     "updated":  "2026-11-23",
+                     "archive":  {
+                                     "url":  "https://github.com/Joshhhuaaa/EnhancedSCCTVersus-CommunityMaps/releases/download/ArcaT-r1/ArcaT-r1.zip",
+                                     "size":  8704065,
+                                     "sha256":  "30366d659ebc1cdce0af0c8be4bf4b8a4e35a44ce4f97dbd23a7961d64be5b64"
+                                 },
+                     "files":  [
+                                   {
+                                       "path":  "Packages/Maps/ArcaT.sdc",
+                                       "size":  361772,
+                                       "sha256":  "cd10cf7b6309bc85da77a1e472f8f14215e6b57145ae209796d5026450a8ec63"
+                                   },
+                                   {
+                                       "path":  "Packages/MapsEd/ArcaT.sdc",
+                                       "size":  466021,
+                                       "sha256":  "6fcde3a4c6e29b8b0d470ba69067b770c50bed1b6c581f131adf1d3d847624ce"
+                                   },
+                                   {
+                                       "path":  "Packages/Sounds/Amb_Arcade.uax",
+                                       "size":  770230,
+                                       "sha256":  "ff5d38d769ff156134be70c7db4a3908f52bf5d5104f1cf5ae12d43b1b54a961"
+                                   },
+                                   {
+                                       "path":  "Packages/Sounds/ArcaT.uas",
+                                       "size":  5060106,
+                                       "sha256":  "efdefc50fa60be721ddcafa72a262581a7a6abfad529e83d1e025999b0a2212f"
+                                   },
+                                   {
+                                       "path":  "Packages/StaticMeshes/Arcade_STM.usx",
+                                       "size":  821689,
+                                       "sha256":  "6192a8408dee17f26054b6925496ced9061dcb7411f387e60d7229ac770a72de"
+                                   },
+                                   {
+                                       "path":  "Packages/Textures/Arcade_TXT.utx",
+                                       "size":  4444345,
+                                       "sha256":  "ef07474040f1ed607ca2e6632a323dd6de64003066acb8359dbee6d0880352a6"
+                                   },
+                                   {
+                                       "path":  "Packages/Textures/ArcaT-i.utc",
+                                       "size":  222283,
+                                       "sha256":  "091b472bff1383bf38dfa5bdccc76ca150724bec46d77d23d4d24ecd4500152f"
+                                   }
+                               ],
+                     "official":  false,
+                     "playlists":  [
+                                       "3v3",
+                                       "Merc Deathmatch"
+                                   ],
+                     "variant":  "",
+                     "preview":  {
+                                     "url":  "maps/ArcaT/preview.jpg",
+                                     "size":  18052,
+                                     "sha256":  "0ed1851725021fba991a0ea190d426ea94b13b376d77018e44969a462fba39e2"
+                                 },
+                     "recommendedPlayers":  6
+                 },
                  {
                      "code":  "MaisD",
                      "title":  "Maisonette 9",
