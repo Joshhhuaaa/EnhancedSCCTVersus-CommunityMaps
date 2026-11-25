@@ -1,7 +1,7 @@
-1e9ee9001440006d30692990a4d7b08984d607edf1ce8773130e74c056566702acd10c6b6e0aa746f4c5bdc91287dc6c426a94efefc3b2ab874e35674bab841f
+a1afec52b8726fa9436b9d0ea0ffe341a87d71991ff6c085d779645b19c33e71d9a5c4497721f675af3d0f2e60eb0e9b08e599f2b74529045175b0264d8e4fe9
 {
     "schema":  1,
-    "serial":  27,
+    "serial":  28,
     "maps":  [
                  {
                      "code":  "ArcaT",
@@ -173,9 +173,9 @@
                                    ],
                      "variant":  "Covert",
                      "preview":  {
-                                     "url":  "",
-                                     "size":  0,
-                                     "sha256":  ""
+                                     "url":  "maps/SancEC/preview.jpg",
+                                     "size":  16813,
+                                     "sha256":  "21849b796f851d83f62eb05f0d2390124d601a30d70a97ebb2b038a865735c94"
                                  },
                      "recommendedPlayers":  4
                  }
